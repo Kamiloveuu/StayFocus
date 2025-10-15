@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">StayFocus</string>
+
+    <string name="info_description">
+        STAY FOCUS adalah aplikasi yang membantu anda supaya fokus dalam mengerjakan tugas atau pekerjaan yang sedang anda lakukan.
+        <br /><br />
+        STAY FOCUS menggunakan Teknik Pomodoro. Teknik Belajar Pomodoro adalah metode pembelajaran dengan mengandalkan manajemen waktu yang dirancang agar dapat memudahkan proses pembelajaran dan memberikan hasil yang maksimal dari segi produktivitas. Teknik Belajar Podomoro membagi waktu belajar menjadi interval bernama jendela kerja yang artinya pembagian waktu antara belajar dan istirahat.
+        <br /><br />
+        Teknik ini memiliki sistem belajar yang berdurasi singkat namun memiliki intensitas tinggi, umumnya <b>25 menit belajar</b> dan <b>5 menit istirahat singkat</b>. Namun, setelah mencapai empat interval belajar, waktu istirahat menjadi <b>lebih panjang sekitar 15 hingga 30 menit</b>.
+        <br /><br />
+        *Anda dapat mengatur waktu per sesinya di Settings sesuai dengan kebutuhan anda.
+    </string>
+
+</resources>

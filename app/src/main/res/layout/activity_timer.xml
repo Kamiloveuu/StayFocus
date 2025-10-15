@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context=".TimerActivity">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/red"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/stayfocus_white" />
+
+        <Button
+            android:id="@+id/btnReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📝Report"
+            android:backgroundTint="@color/gray"
+            android:textColor="@color/white"
+            app:cornerRadius="8dp" />
+
+        <Button
+            android:id="@+id/btnSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⛯Settings"
+            android:backgroundTint="@color/gray"
+            android:textColor="@color/white"
+            app:cornerRadius="8dp" />
+
+        <Button
+            android:id="@+id/btnInfo"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:text="ⓘ"
+            android:backgroundTint="@color/gray"
+            android:textColor="@color/white"
+            android:textSize="8pt"
+            app:cornerRadius="8dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSession"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Work"
+        android:textSize="40sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="80dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="25:00"
+        android:textSize="80sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp" />
+
+    <Button
+        android:id="@+id/btnPlayPause"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:text="▶"
+        android:textSize="30sp"
+        android:backgroundTint="@color/gray2"
+        android:textColor="@color/black"
+        android:layout_marginTop="30dp"
+        app:cornerRadius="8dp" />
+
+    <Button
+        android:id="@+id/btnStop"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:text="STOP"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/gray2"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        app:cornerRadius="8dp" />
+
+    <TextView
+        android:id="@+id/tvActivityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name Activity"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginTop="40dp" />
+
+</LinearLayout>
