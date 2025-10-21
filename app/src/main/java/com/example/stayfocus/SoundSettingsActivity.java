@@ -1,4 +1,3 @@
-
 package com.example.stayfocus;
 
 import android.content.SharedPreferences;
@@ -20,7 +19,6 @@ public class SoundSettingsActivity extends AppCompatActivity {
     private SharedPreferences prefs;
     private MediaPlayer mediaPlayer;
 
-    // Daftar lagu yang tersedia
     private final String[] musicList = {
             "Pilih Musik",
             "Music Modern",
@@ -28,9 +26,8 @@ public class SoundSettingsActivity extends AppCompatActivity {
             "Music Phonk",
     };
 
-    // Resource ID untuk setiap lagu (simpan file musik di res/raw)
     private final int[] musicResources = {
-            0, // 0 untuk "Pilih Musik"
+            0,
             R.raw.music_modern,
             R.raw.lofi_music,
             R.raw.phonk_music,
@@ -45,8 +42,7 @@ public class SoundSettingsActivity extends AppCompatActivity {
         setupNavigation();
         setupMusicSpinner();
         loadSettings();
-        setupSaveButton();
-        setupMusicPreview();
+        setupAutoSaveListeners();
     }
 
     private void initializeViews() {
@@ -89,15 +85,39 @@ public class SoundSettingsActivity extends AppCompatActivity {
         }
     }
 
-    private void setupMusicPreview() {
+    private void setupAutoSaveListeners() {
+        // Auto save ketika sound enabled diubah
+        cbSound.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            saveSoundSettings();
+            if (!isChecked) {
+                // Jika sound dimatikan, matikan juga background music
+                cbBackgroundMusic.setChecked(false);
+                stopMusicPreview();
+            }
+        });
+
+        // Auto save ketika background music diubah
+        cbBackgroundMusic.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            saveSoundSettings();
+            if (isChecked) {
+                // Jika background music diaktifkan, putar preview
+                int pos = spinnerMusic.getSelectedItemPosition();
+                if (pos > 0) {
+                    playMusicPreview(pos);
+                }
+            } else {
+                stopMusicPreview();
+            }
+        });
+
+        // Auto save + preview ketika musik dipilih
         spinnerMusic.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
-                // Stop musik yang sedang diputar
-                stopMusicPreview();
+                saveSoundSettings();
 
-                // Jika bukan pilihan default dan background music diaktifkan, putar preview
-                if (position > 0 && cbBackgroundMusic.isChecked()) {
+                stopMusicPreview();
+                if (cbBackgroundMusic.isChecked() && position > 0) {
                     playMusicPreview(position);
                 }
             }
@@ -108,25 +128,34 @@ public class SoundSettingsActivity extends AppCompatActivity {
             }
         });
 
-        // Juga stop preview ketika background music dinonaktifkan
-        cbBackgroundMusic.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (!isChecked) {
-                stopMusicPreview();
-            }
+        // Tombol save untuk konfirmasi
+        btnSave.setOnClickListener(v -> {
+            Toast.makeText(this, "Pengaturan suara tersimpan", Toast.LENGTH_SHORT).show();
+            finish();
         });
+    }
+
+    private void saveSoundSettings() {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("sound_enabled", cbSound.isChecked());
+        editor.putBoolean("background_music", cbBackgroundMusic.isChecked());
+        editor.putInt("selected_music", spinnerMusic.getSelectedItemPosition());
+        editor.putString("selected_music_name", musicList[spinnerMusic.getSelectedItemPosition()]);
+        editor.apply();
     }
 
     private void playMusicPreview(int position) {
         if (position > 0 && position < musicResources.length) {
+            stopMusicPreview();
             try {
-                stopMusicPreview();
                 mediaPlayer = MediaPlayer.create(this, musicResources[position]);
                 if (mediaPlayer != null) {
                     mediaPlayer.setLooping(true);
+                    mediaPlayer.setVolume(0.5f, 0.5f);
                     mediaPlayer.start();
                 }
             } catch (Exception e) {
-                Toast.makeText(this, "Gagal memutar preview musik", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Gagal memutar preview", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -141,33 +170,10 @@ public class SoundSettingsActivity extends AppCompatActivity {
         }
     }
 
-    private void setupSaveButton() {
-        btnSave.setOnClickListener(v -> {
-            int selectedMusicPosition = spinnerMusic.getSelectedItemPosition();
-
-            // Validasi: jika background music diaktifkan, harus pilih musik
-            if (cbBackgroundMusic.isChecked() && selectedMusicPosition == 0) {
-                Toast.makeText(this, "Silakan pilih musik terlebih dahulu", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("sound_enabled", cbSound.isChecked());
-            editor.putBoolean("background_music", cbBackgroundMusic.isChecked());
-            editor.putInt("selected_music", selectedMusicPosition);
-
-            // Simpan nama musik yang dipilih
-            if (selectedMusicPosition > 0 && selectedMusicPosition < musicList.length) {
-                editor.putString("selected_music_name", musicList[selectedMusicPosition]);
-            } else {
-                editor.putString("selected_music_name", "");
-            }
-
-            editor.apply();
-
-            Toast.makeText(this, "Pengaturan suara disimpan", Toast.LENGTH_SHORT).show();
-            finish();
-        });
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopMusicPreview();
     }
 
     @Override
@@ -175,11 +181,4 @@ public class SoundSettingsActivity extends AppCompatActivity {
         super.onDestroy();
         stopMusicPreview();
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        stopMusicPreview();
-    }
 }
-

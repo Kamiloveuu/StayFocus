@@ -40,12 +40,15 @@ public class TimerActivity extends AppCompatActivity {
     private long longBreakTime;
 
     private MediaPlayer mediaPlayer;
+    private MediaPlayer backgroundMusicPlayer;
     private Vibrator vibrator;
     private SharedPreferences prefs;
     private SharedPreferences soundPrefs;
     private String activityName = "";
 
     private boolean soundEnabled = true;
+    private boolean backgroundMusicEnabled = false;
+    private int selectedMusicResource = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,10 +95,31 @@ public class TimerActivity extends AppCompatActivity {
         }
 
         // Load sound settings
-        soundEnabled = soundPrefs.getBoolean("sound_enabled", true);
+        loadSoundSettings();
 
         // Update loop info display
         updateLoopInfoDisplay();
+    }
+
+    private void loadSoundSettings() {
+        soundEnabled = soundPrefs.getBoolean("sound_enabled", true);
+        backgroundMusicEnabled = soundPrefs.getBoolean("background_music", false);
+        int selectedMusicPosition = soundPrefs.getInt("selected_music", 0);
+
+        // Map spinner position ke resource ID
+        switch (selectedMusicPosition) {
+            case 1:
+                selectedMusicResource = R.raw.music_modern;
+                break;
+            case 2:
+                selectedMusicResource = R.raw.lofi_music;
+                break;
+            case 3:
+                selectedMusicResource = R.raw.phonk_music;
+                break;
+            default:
+                selectedMusicResource = 0;
+        }
     }
 
     private void updateLoopInfoDisplay() {
@@ -138,6 +162,11 @@ public class TimerActivity extends AppCompatActivity {
 
         if (soundEnabled) {
             playSound(R.raw.work);
+        }
+
+        // Start background music jika diaktifkan
+        if (backgroundMusicEnabled && selectedMusicResource != 0) {
+            startBackgroundMusic();
         }
 
         timeLeftInMillis = workTime;
@@ -190,6 +219,32 @@ public class TimerActivity extends AppCompatActivity {
         btnPlayPause.setText("❚❚");
         updateLoopInfoDisplay();
         startTimer();
+    }
+
+    private void startBackgroundMusic() {
+        stopBackgroundMusic();
+        if (selectedMusicResource != 0) {
+            try {
+                backgroundMusicPlayer = MediaPlayer.create(this, selectedMusicResource);
+                if (backgroundMusicPlayer != null) {
+                    backgroundMusicPlayer.setLooping(true);
+                    backgroundMusicPlayer.setVolume(0.3f, 0.3f); // Volume rendah
+                    backgroundMusicPlayer.start();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void stopBackgroundMusic() {
+        if (backgroundMusicPlayer != null) {
+            if (backgroundMusicPlayer.isPlaying()) {
+                backgroundMusicPlayer.stop();
+            }
+            backgroundMusicPlayer.release();
+            backgroundMusicPlayer = null;
+        }
     }
 
     private void toggleTimer() {
@@ -272,12 +327,20 @@ public class TimerActivity extends AppCompatActivity {
         isRunning = false;
         isPaused = true;
         btnPlayPause.setText("▶");
+
+        // Pause background music juga
+        if (backgroundMusicPlayer != null && backgroundMusicPlayer.isPlaying()) {
+            backgroundMusicPlayer.pause();
+        }
     }
 
     private void stopTimer() {
         if (timer != null) {
             timer.cancel();
         }
+
+        // Stop semua musik
+        stopBackgroundMusic();
 
         // Save current session progress jika hampir selesai
         String currentSession = tvSession.getText().toString();
@@ -296,6 +359,9 @@ public class TimerActivity extends AppCompatActivity {
         if (timer != null) {
             timer.cancel();
         }
+
+        // Stop background music
+        stopBackgroundMusic();
 
         // Tampilkan pesan penyelesaian
         tvSession.setText("Completed!");
@@ -356,7 +422,6 @@ public class TimerActivity extends AppCompatActivity {
             if (mediaPlayer != null) {
                 mediaPlayer.release();
             }
-            // Gunakan sound yang ada
             mediaPlayer = MediaPlayer.create(this, R.raw.work);
             if (mediaPlayer != null) {
                 mediaPlayer.start();
@@ -381,14 +446,12 @@ public class TimerActivity extends AppCompatActivity {
         // Tentukan info loop
         String loopInfo = "Loop " + currentLoop + "/" + loopCount;
 
-        // PERBAIKAN: Gunakan pipe (|) sebagai separator, bukan tanda seru (!)
         String record = activityName + "|" + sessionType + "|" + date + "|" + time + "|" + loopInfo + "\n";
 
         // Get current total count
         int total = prefs.getInt("total_sessions", 0);
         total++;
 
-        // PERBAIKAN: Editor bukan Edition
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("history", current + record);
         editor.putInt("total_sessions", total);
@@ -405,6 +468,7 @@ public class TimerActivity extends AppCompatActivity {
             mediaPlayer.release();
             mediaPlayer = null;
         }
+        stopBackgroundMusic();
     }
 
     @Override
@@ -418,6 +482,8 @@ public class TimerActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        // Reload sound settings setiap kali resume
+        loadSoundSettings();
         updateLoopInfoDisplay();
     }
 }
