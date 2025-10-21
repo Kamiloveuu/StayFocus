@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".TimerActivity">
+    tools:context=".TimerSettingsActivity">
 
     <!-- Header -->
     <LinearLayout
@@ -22,14 +22,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             app:srcCompat="@drawable/stayfocus_white" />
 
         <Button
             android:id="@+id/btnReport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="📝Report"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:backgroundTint="@color/gray"
+            android:text="📝Report"
             android:textColor="@color/white"
             app:cornerRadius="8dp" />
 
@@ -37,8 +45,14 @@
             android:id="@+id/btnSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="⛯Settings"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:backgroundTint="@color/gray"
+            android:text="⛯Settings"
             android:textColor="@color/white"
             app:cornerRadius="8dp" />
 
@@ -46,33 +60,44 @@
             android:id="@+id/btnInfo"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
-            android:text="ⓘ"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:backgroundTint="@color/gray"
-            android:textColor="@color/white"
+            android:text="ⓘ"
             android:textSize="8pt"
-            app:cornerRadius="8dp" />
+            android:textColor="@color/white"
+            app:cornerRadius="8dp"/>
     </LinearLayout>
 
+    <!-- Session Type -->
     <TextView
         android:id="@+id/tvSession"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Work"
+        android:fontFamily="sans-serif-black"
         android:textSize="40sp"
         android:textColor="@color/white"
         android:layout_marginTop="80dp"
         android:textStyle="bold" />
 
+    <!-- Timer Display -->
     <TextView
         android:id="@+id/tvTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="25:00"
+        android:fontFamily="@font/roboto_bold"
         android:textSize="80sp"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:layout_marginTop="20dp" />
 
+    <!-- Play/Pause Button -->
     <Button
         android:id="@+id/btnPlayPause"
         android:layout_width="250dp"
@@ -84,11 +109,13 @@
         android:layout_marginTop="30dp"
         app:cornerRadius="8dp" />
 
+    <!-- Stop Button -->
     <Button
         android:id="@+id/btnStop"
         android:layout_width="250dp"
         android:layout_height="70dp"
         android:text="STOP"
+        android:fontFamily="@font/roboto_bold"
         android:textSize="28sp"
         android:textStyle="bold"
         android:backgroundTint="@color/gray2"
@@ -96,11 +123,13 @@
         android:layout_marginTop="10dp"
         app:cornerRadius="8dp" />
 
+    <!-- Activity Name -->
     <TextView
         android:id="@+id/tvActivityName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name Activity"
+        android:fontFamily="sans-serif-black"
         android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold"

@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    android:gravity="center_horizontal"
-    tools:context=".MainActivity">
+    tools:context=".InfoActivity">
 
-    <!-- Header -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -36,8 +36,6 @@
             android:paddingEnd="0dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:backgroundTint="@color/gray"
             android:text="📝Report"
             android:textColor="@color/white"
@@ -60,7 +58,7 @@
 
         <Button
             android:id="@+id/btnInfo"
-            android:layout_width="48dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
@@ -73,17 +71,49 @@
             android:textSize="8pt"
             android:textColor="@color/white"
             app:cornerRadius="8dp"/>
-
     </LinearLayout>
 
+
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgLogo"
         android:layout_width="186dp"
         android:layout_height="34dp"
-        android:layout_marginTop="10pt"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
         app:srcCompat="@drawable/stayfocus_red" />
 
-    
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="350dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="100dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/infostayfocus" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="50dp">
+
+        <Button
+            android:id="@+id/btnHome"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/red"
+            android:text="⌂ Home"
+            android:fontFamily="@font/lexend_bold"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="8dp" />
+
+    </LinearLayout>
 
 </LinearLayout>

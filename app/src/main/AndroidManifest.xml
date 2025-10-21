@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,16 +18,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StayFocus">
         <activity
-            android:name=".NavigationHelper"
+            android:name=".SplashScreen"
+            android:exported="false" />
+
+        <activity
+            android:name=".TimerActivity"
             android:exported="false" />
         <activity
             android:name=".HistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingTimer"
-            android:exported="false" />
-        <activity
-            android:name=".SettingSound"
+            android:name=".SoundSettingsActivity"
             android:exported="false" />
         <activity
             android:name=".SettingsActivity"
@@ -30,7 +37,7 @@
             android:name=".InfoActivity"
             android:exported="false" />
         <activity
-            android:name=".TimerActivity"
+            android:name=".TimerSettingsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
